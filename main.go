@@ -119,7 +119,7 @@ func main() {
 	if  err != nil {
 		log.Panic("not find tables")
 	}
-	println(tables)
+	log.Println(tables)
 	for i := range tables {
 		if err := backup.SaveTable(tables[i]); err != nil {
 			log.Panic(err)
