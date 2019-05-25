@@ -64,16 +64,16 @@ func (backup Backup)ShowTables() (tables []string, err error) {
 
 	bytes, err := ioutil.ReadAll(stdout)
 	items := strings.Split(string(bytes), "\n")
-	log.Println(items)
 	for i := range items {
 		if !strings.Contains(items[i], "| ") ||
-			strings.Contains(items[i], "| Tables_in_" + backup.config.Database) {
+			strings.Contains(items[i], "Tables_in_" + backup.config.Database) {
 			continue
 		}
 		table := strings.Replace(items[i], "|", "", 2)
 		table = strings.TrimSpace(table)
 		tables = append(tables, table)
 	}
+	log.Println(items)
 	return tables, nil
 }
 
@@ -121,6 +121,8 @@ func main() {
 	}
 	println(tables)
 	for i := range tables {
-		backup.SaveTable(tables[i])
+		if err := backup.SaveTable(tables[i]); err != nil {
+			log.Panic(err)
+		}
 	}
 }
