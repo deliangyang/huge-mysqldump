@@ -94,6 +94,7 @@ func (backup Backup)SaveTable(table string) (err error) {
 	}
 
 	if err := cmd.Wait(); nil != err {
+		log.Println(err)
 		log.Fatal(err)
 	}
 
