@@ -71,6 +71,7 @@ func (backup Backup)ShowTables() (tables []string, err error) {
 		}
 		table := strings.Replace(items[i], "|", "", 2)
 		table = strings.TrimSpace(table)
+		log.Println(table)
 		tables = append(tables, table)
 	}
 	log.Println(items)
