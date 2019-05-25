@@ -65,8 +65,7 @@ func (backup Backup)ShowTables() (tables []string, err error) {
 	bytes, err := ioutil.ReadAll(stdout)
 	items := strings.Split(string(bytes), "\n")
 	for i := range items {
-		if !strings.Contains(items[i], "| ") ||
-			strings.Contains(items[i], "Tables_in_" + backup.config.Database) {
+		if strings.Contains(items[i], "Tables_in_" + backup.config.Database) {
 			continue
 		}
 		table := strings.Replace(items[i], "|", "", 2)
