@@ -27,7 +27,7 @@ var (
 	backup Backup
 	recover Recover
 	tables[] string
-	savePath string
+	savePath = "/data/mnt"
 )
 
 func CheckParams(config MysqlConfig) {
