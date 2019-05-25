@@ -85,10 +85,6 @@ func (backup Backup)SaveTable(table string) (err error) {
 		backup.config.Database, table,
 		">", savePath + table + ".sql")
 
-	if _, err := cmd.StdoutPipe(); err != nil {
-		log.Fatal(err)
-	}
-
 	if err := cmd.Start(); err != nil {
 		log.Fatal(err)
 	}
