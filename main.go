@@ -63,7 +63,7 @@ func (backup Backup)ShowTables() (tables []string, err error) {
 	bytes, err := ioutil.ReadAll(stdout)
 	items := strings.Split(string(bytes), "\n")
 	for i := range items {
-		if len(items[i]) > 0 &&
+		if len(items[i]) <= 0 ||
 			strings.Contains(items[i], "Tables_in_" + backup.config.Database) {
 			continue
 		}
@@ -78,11 +78,11 @@ func (backup Backup)SaveTable(table string) (err error) {
 	var cmd *exec.Cmd
 	cmd = exec.Command("mysqldump", "--opt", "-h" + backup.config.Host,
 		"-u" + backup.config.Username, "-p" + backup.config.Password,
-		backup.config.Database + "." + table,
+		backup.config.Database, table,
 		">", savePath + table + ".sql")
 	log.Println("mysqldump", "--opt", "-h" + backup.config.Host,
 		"-u" + backup.config.Username, "-p" + backup.config.Password,
-		backup.config.Database + "." + table,
+		backup.config.Database, table,
 		">", savePath + table + ".sql")
 
 	if _, err := cmd.StdoutPipe(); err != nil {
