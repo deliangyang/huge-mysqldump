@@ -93,6 +93,10 @@ func (backup Backup)SaveTable(table string) (err error) {
 		log.Fatal(err)
 	}
 
+	if err := cmd.Wait(); nil != err {
+		log.Fatal(err)
+	}
+
 	log.Println("save table " + table + " success!!")
 	return nil
 }
