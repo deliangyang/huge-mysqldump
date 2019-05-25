@@ -54,12 +54,10 @@ func (backup Backup)ShowTables() (tables []string, err error) {
 	stdout, err := cmd.StdoutPipe()
 	if  err != nil {
 		log.Fatal(err)
-		return tables, err
 	}
 
 	if err := cmd.Start(); err != nil {
 		log.Fatal(err)
-		return tables, err
 	}
 
 	bytes, err := ioutil.ReadAll(stdout)
@@ -70,10 +68,8 @@ func (backup Backup)ShowTables() (tables []string, err error) {
 		}
 		table := strings.Replace(items[i], "|", "", 2)
 		table = strings.TrimSpace(table)
-		log.Println(table)
 		tables = append(tables, table)
 	}
-	log.Println(items)
 	return tables, nil
 }
 
@@ -82,18 +78,19 @@ func (backup Backup)SaveTable(table string) (err error) {
 	cmd = exec.Command("mysqldump", "--opt", "-h" + backup.config.Host,
 		"-u" + backup.config.Username, "-p" + backup.config.Password, backup.config.Database,
 		">", savePath + table + ".sql")
+	log.Println("mysqldump", "--opt", "-h" + backup.config.Host,
+		"-u" + backup.config.Username, "-p" + backup.config.Password, backup.config.Database,
+		">", savePath + table + ".sql")
 
 	if _, err := cmd.StdoutPipe(); err != nil {
 		log.Fatal(err)
-		return err
 	}
 
 	if err := cmd.Start(); err != nil {
 		log.Fatal(err)
-		return err
 	}
 
-	log.Println("save " + table + " success!!")
+	log.Println("save table " + table + " success!!")
 	return nil
 }
 
